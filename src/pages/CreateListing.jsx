@@ -131,7 +131,7 @@ function CreateListing() {
             geolocation.lat = latitude
             geolocation.lng = longitude
             // location is address that is typed in
-            location = address
+            
         }
 
         // STORE IMAGES IN FIREBASE - https://firebase.google.com/docs/storage/web/upload-files
@@ -142,7 +142,7 @@ function CreateListing() {
                 // exporting getstorage method as storage
                 const storage = getStorage()
                 // creating a filename for images by concatenating the current user, the image name (the name of the image files passed in), and a unique id imported from uuidv4.
-                const fileName = `${auth.currentUser.uuid}-${image.name}-${uuidv4()}`
+                const fileName = `${auth.currentUser.uuidv4}-${image.name}-${uuidv4()}`
 
                 // declaring a storage reference object that exports a reference to the getstorage method, which makes a new collection called 'images' that contains each instance of image created. We find these images in the firebase console > storage > files >images > $files
                 const storageRef = ref(storage, 'images/' + fileName)
@@ -194,10 +194,10 @@ function CreateListing() {
             geolocation,
             timestamp: serverTimestamp()
         }
+        formDataCopy.location = address
         delete formDataCopy.images
         delete formDataCopy.address
-        // for the location, add location (which updates 'address')
-        location && (formDataCopy.location = location)
+        
         // if there's not an offer, remove discounted price key from formdatacopy
         !formDataCopy.offer && delete formDataCopy.discountedPrice
 

@@ -19,7 +19,7 @@ function ListingItem({listing, id, onDelete}) {
                 </p>
                 <p className="categoryListingPrice">
                     {/* ternary to display either a discounted price or regular price */}
-                    {listing.offer ? 'Offer: £' + listing.discountedPrice : 'Price' + listing.regularPrice}
+                    {listing.offer ? 'Offer: £' + listing.discountedPrice : 'Price: £' + listing.regularPrice}
                     {listing.type === 'rent' && ' per month'}
                 </p>
                 <div className="categoryListingInfoDiv">
