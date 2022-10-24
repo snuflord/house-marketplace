@@ -11,6 +11,7 @@ import {toast} from 'react-toastify'
 function CreateListing() {
 
     const [geolocEnabled, setGeolocEnabled] = useState(true)
+    const [active, setButtonText] = useState(false)
     const [loading, setLoading] = useState(false)
     const [formData, setFormData] = useState({
         type: 'rent',
@@ -87,6 +88,11 @@ function CreateListing() {
             }))
         }
     }
+
+    const onButtonClick = () => {
+            setGeolocEnabled(prevstate => !prevstate)
+            setButtonText(!active)
+    }
     
 
     // ON SUBMIT Commits all user input data handled by onMutate to create a new listing
@@ -113,6 +119,7 @@ function CreateListing() {
 
             // expirt response as data
             const data = await response.json()
+            console.log(data)
             
             // setting geolocation object specifics (lat/lng) to data response
             geolocation.lat = data.results[0]?.geometry.location.lat ?? 0
@@ -206,6 +213,7 @@ function CreateListing() {
 
         setLoading(false)
         toast.success('Listing successful!')
+        // this navigate method goes to each created listing based on its type (rent or sell) and its unique docref id.
         navigate(`/category/${formDataCopy.type}/${docRef.id}`)
     } 
 
@@ -257,7 +265,7 @@ function CreateListing() {
                     </div>
                 </div>
 
-                <label className="formLabel">Address</label>
+                <label className="formLabel">Enter address</label>
                 <textarea className='formInputAddress' type='text' id='address' value={address} onChange={onMutate} required />
                 
                 {!geolocEnabled && (
@@ -272,6 +280,8 @@ function CreateListing() {
                         </div>
                     </div>
                 )}
+
+                <button className={active ? 'formButtonActive' : 'formButton'} onClick={onButtonClick}>{active ? 'Hide manual co-ordinates' : 'Or enter manual co-ordinates'}</button>
 
                 <div>
                     <label className="formLabel">Offer</label>
