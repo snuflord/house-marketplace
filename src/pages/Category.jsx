@@ -20,7 +20,7 @@ function Category() {
             try {
                 //get reference to listings table
             const listingsRef = collection(db, 'listings')
-            // get a query - takes collection returned to listingsRef and queries the type == params.CategoryName, specifed in App.js
+            // get a query - takes collection returned to listingsRef and queries the type == params.CategoryName, specifed in App.js - here the query will return either properties for rent or properties for sale. == only - not strict equality here. 
             const q = query(listingsRef, where('type', '==', params.categoryName), orderBy('timestamp', 'desc',), limit(10))
 
             // execute query (q) = this function will get the documents specific to the query above. In this case, it will return for sale or for rent pages.

@@ -22,20 +22,24 @@ function Offers() {
       
             const listingsRef = collection(db, 'listings')
   
+            // this query selector checks the listingsRef (the listings collection in firebase) and then checks if key 'offer' is true
             const q = query(listingsRef, where('offer', '==', true), orderBy('timestamp', 'desc',), limit(10))
-  
+            
+            // the get Docs method will then fetch documents that match those that include 'offer' as true
             const querySnap = await getDocs(q)
 
             const listings = []
   
             querySnap.forEach((doc) => {
       
+                // for each document, add the id and data returned from each document to the empty listings array.
                 return listings.push({
                     id: doc.id,
                     data: doc.data()
                 })
             })
   
+            // update the state to include the updated listings array - now we can loop through each listing in the array to create listingItems for each. 
             setListings(listings)
 
             setLoading(false)

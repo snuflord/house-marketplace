@@ -8,6 +8,7 @@ function ListingItem({listing, id, onDelete}) {
   return (
     <>
     <li className='categoryListing'>
+        {/* navigate path for each listing takes in the listing type (rent/sale) and unique id, returned from getDoc in 'Category */}
         <Link to={`/category/${listing.type}/${id}`} className='categoryListingLink'>
             <img src={listing.imgUrls} alt={listing.name} className='categoryListingImg' />
             <div className="categoryListingDetails">
