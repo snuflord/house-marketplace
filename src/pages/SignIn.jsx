@@ -32,9 +32,10 @@ function SignIn() {
     e.preventDefault()
 
     try {
-      //
+      // getAuth method passed as object aith, which is called in signin method
       const auth = getAuth()
       const userCredential = await signInWithEmailAndPassword(auth, email, password)
+      // if there is a user matching these credentials, navigate to profile page
         if(userCredential.user) {
         navigate('/profile')
         sendEmailVerification(auth.currentUser)

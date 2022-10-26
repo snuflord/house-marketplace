@@ -51,7 +51,7 @@ function Contact() {
                         </div>
                         {/* searchParams.getListingNmae is listing.name defined in the Link url search param in Listing */}
                         <a href={`mailto:${landlord.email}?Subject=${searchParams.get('listingName')}&body=${message}`}>
-                            <button type='button' className="primaryButton">Send Inquiry</button>
+                            <button type='button' className="contactButton">Send Inquiry</button>
                         </a>
                     </form>
                 </main>

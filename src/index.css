@@ -59,7 +59,7 @@ button {
   border-radius: 1rem;
 }
 
-.primaryButton {
+.primaryButton, .contactButton {
   cursor: pointer;
   background: #00cc66;
   border-radius: 1rem;
@@ -72,6 +72,10 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.contactButton {
+  margin-bottom: 8rem;
 }
 
 .removeIcon {

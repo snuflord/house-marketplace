@@ -17,6 +17,7 @@ import 'swiper/css/scrollbar';
 // INDIVIDUAL LISTING DISPLAYED WHEN SINGLE ITEM (HOUSE) IS SELECTED
  
 function Listing() {
+    // listing data is intitially null until getDoc with docref query is fetched
     const [listing, setListing] = useState(null)
     const [loading, setLoading] = useState(true)
     const [shareLinkCopied, setShareLinkCopied] = useState(false)
@@ -120,7 +121,7 @@ function Listing() {
                 </MapContainer>
             </div>
             {/* Here contact/${listing.useRef} corresponds with /contact/:landlordId in App.js. The ? appends the listing name to the url - this url can be seen when on the Contact page*/}
-            <Link to={`/contact/${listing.useRef}?listingName=${listing.name}`} className='primaryButton'>Contact Seller</Link>
+            <Link to={`/contact/${listing.useRef}?listingName=${listing.name}`} className='contactButton'>Contact Seller</Link>
             
         </div>
     </main>

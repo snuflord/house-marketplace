@@ -53,7 +53,7 @@ function CreateListing() {
         if(isMounted) {
             onAuthStateChanged(auth, (user) => {
                 if(user) {
-                    // useRef is the userReference, stored in firebase > listings, updated here with the unique id of the user
+                    // useRef is the userReference, stored in firebase > listings, added and updated here with the unique id of the user
                     setFormData({...formData, useRef: user.uid})
                 } else {
                     navigate('/sign-in')
