@@ -16,6 +16,7 @@ function CreateListing() {
     const [formData, setFormData] = useState({
         type: 'rent',
         name: '',
+        description: '',
         bedrooms: 1,
         bathrooms: 1,
         parking: false,
@@ -31,6 +32,7 @@ function CreateListing() {
 
     const { type,
             name,
+            description,
             bedrooms,
             bathrooms,
             parking,
@@ -73,7 +75,7 @@ function CreateListing() {
         if(e.target.value === 'false') {
             boolean = false
         }
-        // Files
+        // updating image files in state
         if(e.target.files) {
             setFormData((prevstate) => ({
                 ...prevstate,
@@ -83,13 +85,15 @@ function CreateListing() {
         // Text/bools/numbers
         if(!e.target.files) {
             setFormData((prevstate) => ({
+                // spread operator across previous array (empty formData)
                 ...prevstate,
-                // here the coalescing operator (??) - if whatever to the left is not null, use boolean, otherwise, use e.target.value (text or number)
+                // here the coalescing operator (??) - if whatever to the left is not null, use boolean, otherwise, use e.target.value (text or number) - update formData with the values of each e.target.id value.
                 [e.target.id]: boolean ??  e.target.value
             }))
         }
     }
 
+    // Handle toggling manual geolocation entry fields. 
     const onButtonClick = () => {
             setGeolocEnabled(prevstate => !prevstate)
             setButtonText(!active)
@@ -118,7 +122,7 @@ function CreateListing() {
         if(geolocEnabled) {
             const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_GEOCODE_API_KEY}`)
 
-            // expirt response as data
+            // export response as data
             const data = await response.json()
             console.log(data)
             
@@ -249,6 +253,9 @@ function CreateListing() {
                         <input className='formInputSmall' type="number" id='bathrooms' value={bathrooms} onChange={onMutate} min='1' max='50' required/>
                     </div>
                 </div>
+                
+                <label className="formLabel">Enter description</label>
+                <textarea className='formInputAddress' type='text' id='description' value={description} onChange={onMutate} required />
 
                 <div>
                     <label className="formLabel">Parking</label>

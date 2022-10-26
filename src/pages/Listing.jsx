@@ -5,6 +5,14 @@ import {getAuth} from 'firebase/auth'
 import {db} from '../firebase.config'
 import Spinner from '../components/Spinner'
 import shareIcon from '../assets/svg/shareIcon.svg'
+import {MapContainer, Marker, Popup, TileLayer} from 'react-leaflet'
+import SwiperCore, {Navigation, Pagination, Scrollbar, A11y } from 'swiper'
+import {Swiper, SwiperSlide} from 'swiper/react'
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+
 
 // INDIVIDUAL LISTING DISPLAYED WHEN SINGLE ITEM (HOUSE) IS SELECTED
  
@@ -42,7 +50,21 @@ function Listing() {
 
   return (
     <main>
-        {/* SLIDER */}
+
+        <Swiper
+        modules={[Navigation, Pagination, Scrollbar, A11y]}
+        slidesPerView={1}
+        navigation
+        pagination={{ clickable: true }}
+        scrollbar={{ draggable: true }}
+        >
+        {listing.imgUrls.map((url, index) => (
+                    <SwiperSlide key={index}>
+                        <div style={{background: `url(${listing.imgUrls[index]}), center no-repeat`, backgroundSize: 'cover', minHeight: '30rem'}} className="swiperSlideDiv">
+                        </div>
+                    </SwiperSlide>
+                ))}
+        </Swiper>
 
         <div className="shareIconDiv">
             <img src={shareIcon} alt="share-button" onClick={() => {
@@ -61,7 +83,9 @@ function Listing() {
             <p className="listingLocation">{listing.location}</p>
             <p className="listingType">For {listing.type == 'rent' ? 'Rent' : 'Sale'}</p>
             {listing.offer && <p className='discountPrice'>
-                £{listing.regularPrice -listing.discountedPrice} discount!</p>}
+                £{listing.regularPrice - listing.discountedPrice} discount!</p>}
+
+                <p className="listingDescription">{listing.description}</p>
 
             <ul className="listingDetailsList">
                 <li>
@@ -79,11 +103,24 @@ function Listing() {
             </ul>
 
             <p className='listingLocationTitle'>Location</p>
-            {/* MAP */}
-
             
-            
-                <Link to={`/contact/${listing.useRef}?listingName=${listing.name}`} className='primaryButton'>Contact Seller</Link>
+            <div className='leafletContainer'>
+                <MapContainer
+                    style={{ height: '100%', width: '100%' }}
+                    center={[listing.geolocation.lat, listing.geolocation.lng]}
+                    zoom={13}
+                    scrollWheelZoom={false}>
+                        <TileLayer
+                        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                        url='https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png'
+                        />
+                        <Marker position={[listing.geolocation.lat, listing.geolocation.lng]}>
+                            <Popup>{listing.location}</Popup>
+                        </Marker>
+                </MapContainer>
+            </div>
+            {/* Here contact/${listing.useRef} corresponds with /contact/:landlordId in App.js. The ? appends the listing name to the url - this url can be seen when on the Contact page*/}
+            <Link to={`/contact/${listing.useRef}?listingName=${listing.name}`} className='primaryButton'>Contact Seller</Link>
             
         </div>
     </main>

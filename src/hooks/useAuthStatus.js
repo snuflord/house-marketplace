@@ -20,7 +20,7 @@ export const useAuthStatus = () => {
             setLoggedIn(true)
             setTimeout(() => {
               setLoggedIn(false)
-            }, 1800000)
+            }, 3000000)
         } 
             setIsLoading(false)
      })
