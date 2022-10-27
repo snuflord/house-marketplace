@@ -84,11 +84,20 @@ function Profile() {
     }))
   }
 
-  const onDelete = async () => {
+  const onDelete = async (listingId) => {
+    
     if(window.confirm('Are you sure you want to delete?')) {
-      await deleteDoc(doc(db, 'listings', 'listingId'))
+      // function parameter listingId corresponds with onDelete(listing.id) in listing item below (unique id of listing)
+      await deleteDoc(doc(db, 'listings', listingId))
+      // below = updating listings by filtering out listings with id's that are no longer there.
+      const updatedListings = listings.filter((listing) => listing.id !== listingId)
+      // updating listings in state.
+      setListings(updatedListings)
+      toast.success('Listing deleted')
     }
   }
+
+  const onEdit = (listingId) => navigate(`/edit-listing/${listingId}`)
 
   
     return (
@@ -129,7 +138,7 @@ function Profile() {
               <p className="listingText">Your Listings</p>
                 <ul className='listingList'>
                     {listings.map((listing) => (
-                        <ListingItem key={listing.id} id={listing.id} listing={listing.data} onDelete={() => onDelete(listing.id)}/>
+                        <ListingItem key={listing.id} id={listing.id} listing={listing.data} onDelete={() => onDelete(listing.id)} onEdit={() => onEdit(listing.id)} />
                     ))}
                 </ul>
             </main>

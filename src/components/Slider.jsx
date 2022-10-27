@@ -48,6 +48,13 @@ function Slider() {
     if(loading) {
         <Spinner />
     }
+
+    // hide slider if no listings
+    if(listings.length === 0) {
+        return (
+            <></>
+        )
+    }
   
     // if there are listings...
    return listings && (

@@ -7,6 +7,7 @@ import Contact from './pages/Contact';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import CreateListing from './pages/CreateListing';
+import EditListing from './pages/EditListing';
 import Listing from './pages/Listing';
 import ForgotPassword from './pages/ForgotPassword';
 import Navbar from './components/Navbar';
@@ -29,11 +30,11 @@ function App() {
         <Route path='/profile' element={<PrivateRoute/>}>
           {/* This route below is the 'Outlet in PrivateRoute */}
           <Route path='/profile' element={<Profile/>}/>
-          å
         </Route>
         <Route path='/sign-in' element={<SignIn/>}/>
         <Route path='/sign-up' element={<SignUp/>}/>
         <Route path='/create-listing' element={<CreateListing/>}/>
+        <Route path='/edit-listing/:listingId' element={<EditListing/>}/>
         <Route path='/forgot-password' element={<ForgotPassword/>}/>
         <Route path='category/:categoryName/:listingId' element={<Listing/>} />
         <Route path='/contact/:landlordId' element={<Contact/>} />
@@ -42,7 +43,7 @@ function App() {
 
     </Router>
     
-    <ToastContainer />
+    <ToastContainer autoClose={3000} />
 
     {/* Navbar */}
     </>

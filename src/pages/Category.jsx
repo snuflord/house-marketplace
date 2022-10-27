@@ -10,6 +10,7 @@ function Category() {
 
     const [listings, setListings] = useState(null)
     const [loading, setLoading] = useState(true)
+    const [lastFetchedListing, setLastFetchedListing] = useState(null)
 
     // use params allows us to check the :categoryName route specified in app.js - the specific routes 
     const params = useParams()
@@ -25,6 +26,11 @@ function Category() {
 
             // execute query (q) = this function will get the documents specific to the query above. In this case, it will return for sale or for rent pages.
             const querySnap = await getDocs(q)
+
+            // if we retrieve 10 docs, this variable will hold the last one 
+            const lastVisibleDoc = querySnap.docs[querySnap.docs.length - 1]
+            // updating state to last visible doc. 
+            setLastFetchedListing(lastVisibleDoc)
 
             // create listings array
             const listings = []
@@ -48,8 +54,33 @@ function Category() {
         }
         // execute fetchListings
         fetchListings()
-    }, [])
+    }, [params.categoryName])
 
+    // PAGINATION FUNCTION
+    const fetchMoreListings = async () => {
+
+        try {
+        const listingsRef = collection(db, 'listings')
+        // Here we are querying listings as above; however, the limit here is the number of additional listings to be fetched and appended to the already displayed listings. 
+        const q = query(listingsRef, where('type', '==', params.categoryName), orderBy('timestamp', 'desc',), startAfter(lastFetchedListing), limit(10))
+        const querySnap = await getDocs(q)
+        const lastVisibleDoc = querySnap.docs[querySnap.docs.length - 1] 
+        setLastFetchedListing(lastVisibleDoc)
+
+        const listings = []
+        querySnap.forEach((doc) => {
+            return listings.push({
+                id: doc.id,
+                data: doc.data()
+            })
+        })
+        // Here we ADD the next 10 listings to the already populated listings array.
+        setListings((prevState) => [...prevState, ...listings])
+        setLoading(false)
+        } catch (error) {
+            toast.error('Could not find listing')
+        }
+    }
 
   return (
     <div className='category'>
@@ -67,6 +98,12 @@ function Category() {
                     ))}
                 </ul>
             </main>
+            <br />
+            <br />
+            {lastFetchedListing && (
+                <p className="loadMore" onClick={fetchMoreListings}>Load More</p>
+            )}
+
         </> : <p>No listings for {params.categoryName}</p>}
     </div>
   )
