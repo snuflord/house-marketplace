@@ -15,6 +15,10 @@ function OAuth() {
         try {
             const auth = getAuth()
             const provider = new GoogleAuthProvider()
+            // allow account selection
+            provider.setCustomParameters({
+                prompt: 'select_account',
+              });
             // pop up will create a new window instead of redirecting
             const result = await signInWithPopup(auth, provider)
             const user = result.user;
