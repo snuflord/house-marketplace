@@ -4,6 +4,7 @@ import {doc, setDoc, getDoc, serverTimestamp} from 'firebase/firestore'
 import {db} from '../firebase.config'
 import {toast} from 'react-toastify'
 import googleIcon from '../assets/svg/googleIcon.svg'
+import facebookIcon from '../assets/jpg/facebookIcon.png'
 
 function OAuth() {
 
@@ -43,10 +44,7 @@ function OAuth() {
         try {
             const auth = getAuth()
             const provider = new FacebookAuthProvider()
-            // allow account selection
-            provider.setCustomParameters({
-                prompt: 'select_account',
-              });
+            
             // pop up will create a new window instead of redirecting
             const result = await signInWithPopup(auth, provider)
             const user = result.user;
@@ -75,11 +73,9 @@ function OAuth() {
             <button className="socialIconDiv" onClick={onGoogleClick}>
                 <img className='socialIconImg' src={googleIcon} alt="google" />
             </button>
-        </div>
-        <div className="socialLogin">
             <p>Sign {location.pathname ==='/sign-up' ? 'up' : 'in'} with</p>
             <button className="socialIconDiv" onClick={onFBClick}>
-                <img className='socialIconImg' src={googleIcon} alt="fb" />
+                <img className='socialIconImg' src={facebookIcon} alt="fb" />
             </button>
         </div>
     </>
