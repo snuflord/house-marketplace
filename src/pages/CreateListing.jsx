@@ -63,7 +63,7 @@ function CreateListing() {
         return () => {
             isMounted.current = false
         }
-    }, [isMounted])
+    }, [isMounted,])
 
     // ON MUTATE handles updating formData based on user input: changing bools, updating numbers and text.
     const onMutate = (e) => {
