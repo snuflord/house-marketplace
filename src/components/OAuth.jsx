@@ -1,5 +1,5 @@
 import {useLocation, useNavigate} from 'react-router-dom'
-import {getAuth, signInWithPopup, GoogleAuthProvider,} from 'firebase/auth'
+import {getAuth, signInWithPopup, GoogleAuthProvider, signInWithRedirect} from 'firebase/auth'
 import {doc, setDoc, getDoc, serverTimestamp} from 'firebase/firestore'
 import {db} from '../firebase.config'
 import {toast} from 'react-toastify'
@@ -35,7 +35,10 @@ function OAuth() {
             } 
             navigate('/')
         } catch (error) {
+            const auth = getAuth()
+            const provider = new GoogleAuthProvider()
             toast.error('Could not authorise with Google')
+            signInWithRedirect(auth, provider);
         }
     }
 
