@@ -63,6 +63,7 @@ function OAuth() {
             } 
             navigate('/')
         } catch (error) {
+            console.log(error)
             toast.error('Could not authorise with Facebook')
         }
     }
