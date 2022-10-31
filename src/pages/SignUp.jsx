@@ -2,10 +2,11 @@ import {useState} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import {ReactComponent as ArrowRightIcon} from '../assets/svg/keyboardArrowRightIcon.svg'
 import visibilityIcon from '../assets/svg/visibilityIcon.svg'
-import {getAuth, createUserWithEmailAndPassword, updatePassword, updateProfile} from 'firebase/auth'
+import {getAuth, createUserWithEmailAndPassword, updateProfile, sendEmailVerification} from 'firebase/auth'
 import {setDoc, doc, serverTimestamp} from 'firebase/firestore'
 import { db } from '../firebase.config'
 import OAuth from '../components/OAuth'
+import {toast} from 'react-toastify'
 
 
 function SignUp() {
@@ -35,9 +36,9 @@ function SignUp() {
     e.preventDefault()
 
     try {
-      // getting auth object from getAuth - conta
+      // getting auth object from getAuth: initialise Firebase Authentication and get a reference to the service
       const auth = getAuth()
-      // registering user with function to handle user creation, returns promise, exported as userCredential.
+      // registering user with firebase method to handle user creation, returns promise, exported as userCredential. - takes in updated values from onChange function formData
       const userCredential = await createUserWithEmailAndPassword(auth, email, password)
       // A new user is returned, passed into 'user' object
       const user = userCredential.user
@@ -46,6 +47,7 @@ function SignUp() {
         displayName: name
       })
 
+      sendEmailVerification(auth.currentUser)
       // getting form data and making a copy - contains user name, email, password 
       const formDataCopy = {...formData}
       // deleting password from formdata object
@@ -53,13 +55,14 @@ function SignUp() {
       // adding timestamp to data once it is added
       formDataCopy.timestamp = serverTimestamp()
 
-      // adding data to database - get firestore (db)- the table 'users', then the data - the new user object uid and the formdatacopy (the email and name)
+      // adding data to database - get firestore (db)- the table 'users', then the data - the new user object uid and the formdatacopy (the email and name). So the hierarchy in firebase is users > user (unique id) > user details - password.
       await setDoc(doc(db, 'users', user.uid), formDataCopy)
       
       navigate('/')
       
     } catch (error) {
       console.log(error)
+      toast.error('Failed to create user, please try again.')
     }
   }
   
@@ -68,7 +71,7 @@ function SignUp() {
         <div className="pageContainer">
           <header>
             <p className="pageHeader">
-              Welcome back
+              Welcome!
             </p>
           </header>
           

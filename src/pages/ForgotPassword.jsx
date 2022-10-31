@@ -32,7 +32,7 @@ function ForgotPassword() {
         </header>
         <main>
           <form onSubmit={onSubmit}>
-            <input type="email" className='emailInput' placeholder='email' id='email' value={email} onChange={onChange}/>
+            <input type="email" className='emailInput' placeholder='Email' id='email' value={email} onChange={onChange}/>
             <Link className='forgotPasswordLink' to='/sign-in'/>
 
             <div className="signInBar">

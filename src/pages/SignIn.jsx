@@ -2,7 +2,7 @@ import {useState} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import {ReactComponent as ArrowRightIcon} from '../assets/svg/keyboardArrowRightIcon.svg'
 import visibilityIcon from '../assets/svg/visibilityIcon.svg'
-import { getAuth, signInWithEmailAndPassword, sendEmailVerification} from 'firebase/auth'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import {toast} from 'react-toastify'
 import OAuth from '../components/OAuth'
 
@@ -38,7 +38,6 @@ function SignIn() {
       // if there is a user matching these credentials, navigate to profile page
         if(userCredential.user) {
         navigate('/profile')
-        sendEmailVerification(auth.currentUser)
       }
     } catch (error) {
       // toast error message
@@ -51,7 +50,7 @@ function SignIn() {
         <div className="pageContainer">
           <header>
             <p className="pageHeader">
-              Welcome!
+              Welcome back
             </p>
           </header>           
             <form onSubmit={onSubmit}>

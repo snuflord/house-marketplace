@@ -28,7 +28,9 @@ function Profile() {
 
   useEffect(() => {
     const fetchUserListings = async () => {
+      // get listings collections
       const listingsRef = collection(db, 'listings')
+      // getting listings specific to user who created them
       const q = query(listingsRef, where('useRef', '==', auth.currentUser.uid), orderBy('timestamp', 'desc',))
       const querySnap = await getDocs(q)
 
@@ -39,6 +41,7 @@ function Profile() {
           data: doc.data()
         })
     })
+      // this users listings updated in state
       setListings(listings)
       setLoading(false)
     }
@@ -55,7 +58,7 @@ function Profile() {
   const onSubmit = async (e) => {
 
     try {
-      // if current user name is not equal to the new name value passed in on input
+      // if current user name is not equal to the new 'name' value passed in on input
       if(auth.currentUser.displayName !== name) {
         // update the display name with new input value - updateProfile takes in auth.current user, and returns an object with the values we want replaced (name from input)
         await updateProfile(auth.currentUser, {
