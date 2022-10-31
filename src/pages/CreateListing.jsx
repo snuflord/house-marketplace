@@ -128,10 +128,10 @@ function CreateListing() {
             const data = await response.json()
             console.log(data)
             
-            // setting geolocation object specifics (lat/lng) to data response
+            // setting geolocation object specifics (lat/lng) to data response - otherwise, 0
             geolocation.lat = data.results[0]?.geometry.location.lat ?? 0
             geolocation.lng = data.results[0]?.geometry.location.lng ?? 0
-            // address is location returned from geocode
+            // address is location returned from geocode - location is both geolocations lat and lng. 
             location = data.status === 'ZERO_RESULTS' ? undefined :
             data.results[0]?.formatted_address
 
