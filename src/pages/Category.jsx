@@ -21,7 +21,7 @@ function Category() {
             try {
                 //get reference to listings table
             const listingsRef = collection(db, 'listings')
-            // get a query - takes collection returned to listingsRef and queries the type == params.CategoryName, specifed in App.js - here the query will return either properties for rent or properties for sale. == only - not strict equality here. 
+            // get a query - takes collection returned to listingsRef and queries the type == params.CategoryName, specifed in App.js - then looks at path in explore.jsx - here the query will return either properties for rent or properties for sale. == only - not strict equality here. 
             const q = query(listingsRef, where('type', '==', params.categoryName), orderBy('timestamp', 'desc',), limit(10))
 
             // execute query (q) = this function will get the documents specific to the query above. In this case, it will return for sale or for rent pages.
@@ -36,7 +36,7 @@ function Category() {
             const listings = []
             // for each document equal to the query above, add the data and an id to listings array.
             querySnap.forEach((doc) => {
-                // for each doc, add new object with id and data
+                // for each doc, add new object with id and the data returned from getDocs
                 return listings.push({
                     id: doc.id,
                     data: doc.data()
@@ -52,7 +52,7 @@ function Category() {
             }
             
         }
-        // execute fetchListings
+        // execute fetchListings on page load
         fetchListings()
     }, [params.categoryName])
 

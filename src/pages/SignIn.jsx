@@ -51,7 +51,7 @@ function SignIn() {
         <div className="pageContainer">
           <header>
             <p className="pageHeader">
-              Welcome back
+              Welcome!
             </p>
           </header>           
             <form onSubmit={onSubmit}>
