@@ -144,11 +144,13 @@ function EditListing() {
         if(discountedPrice >= regularPrice) {
             setLoading(false)
             toast.error('Please check your pricing: discounted price cannot be greater than regular price')
+            return false
         }
         // prevent more than 6 image upload
         if(images.length >  6) {
             setLoading(false)
             toast.error('You may upload 6 images maximum')
+            return false
         }
 
         let geolocation = {}
